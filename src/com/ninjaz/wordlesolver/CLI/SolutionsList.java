@@ -12,6 +12,15 @@ public class SolutionsList {
     public SolutionsList(ArrayList<Letter[]> boardWords, WordDictionary wordDict) {
         this.boardWords = boardWords;
         this.wordDict = wordDict;
+
+        // Iterate through each of the English words in the word list, and check each one of them to see if they're a possible solution
+        // based on the clues we have been given from the board
+        for (String word : wordDict.getWords()) {
+            word = word.toUpperCase();
+            if (isSolution(word)) {
+                solutions.add(word);
+            }
+        }
     }
 
     // // ---- Algorithm ----
@@ -43,18 +52,6 @@ public class SolutionsList {
         return matchingLetters.toArray(Letter[]::new);
     }
 
-    // /** Sorts the Letters based on their color attribute
-    //  * - The order is: Green, Yellow, Black */
-    // private static Letter[] sortGYB(Letter[] letterArray) {
-    //     ArrayList<Letter> colorSortedLetters = new ArrayList<>();
-    //
-    //     for (char color : new char[] {'G', 'Y', 'B'}) {
-    //         colorSortedLetters.addAll(List.of(filterForColor(color, letterArray))); // Adds all the 'G' letters, then all the 'Y' letters, then all the 'B' letters to the ArrayList
-    //     }
-    //
-    //     return colorSortedLetters.toArray(Letter[]::new);
-    // }
-
     /** Removes duplicates from a Letter array by converting the array to a HashSet and then back to an array
      * - Note: returns a copy */
     private static Letter[] removeDuplicateLetters(Letter[] letterArray) {
@@ -62,6 +59,7 @@ public class SolutionsList {
         return set.toArray(Letter[]::new); // Convert back to an array
     }
 
+    // TODO: Add an algorithm explanation here
     private boolean isSolution(String suspectWord) {
         for (Letter[] boardWord : boardWords) { // Loop through each row (word) in the Wordle grid
             Letter[] uniqueLetters = removeDuplicateLetters(boardWord);
@@ -100,18 +98,5 @@ public class SolutionsList {
     // ---- Other ----
     public ArrayList<String> getSolutions() {
         return solutions;
-    }
-
-    public static void main(String[] args) {
-        // Letter[] myWord = {new Letter('A', 'B', 2), new Letter('B', 'G', 4), new Letter('C', 'B', 1), new Letter('D', 'G', 3), new Letter('D', 'Y', 2)};
-        // System.out.println(Arrays.toString(removeDuplicateLetters(myWord)));
-
-        ArrayList<Letter[]> words = new ArrayList<>();
-        // words.add(Letter.toLetterArray("ASPIC", "BGBBB"));
-        // words.add(Letter.toLetterArray("STIFF", "GBBBB"));
-        words.add(Letter.toLetterArray("XENON", "YBBBB"));
-
-        SolutionsList sl = new SolutionsList(words, new WordDictionary("src/com/ninjaz/wordlesolver/CLI/all-5-letter-words.txt"));
-        System.out.println(sl.isSolution("XSSXX"));
     }
 }
