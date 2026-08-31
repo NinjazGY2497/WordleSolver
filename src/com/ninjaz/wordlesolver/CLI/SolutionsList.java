@@ -82,9 +82,14 @@ public class SolutionsList {
                     if (letterCountInSuspect != (totalCount - blackLetterCount)) return false;
                 }
 
-                // Check #2 - Green - For each green unique letter, make sure the letter of the suspect word at that corresponding position matches
+                // Check #2 - Green - For each green letter, make sure the letter of the suspect word at that corresponding position matches
                 for (Letter greenLetter : filterForColor('G', letterList)) {
                     if (suspectWord.charAt(greenLetter.position) != greenLetter.letter) return false; // greenLetter 'position' attribute holds which column it was originally in the boardWord, before it got thrown into a HashSet and unordered
+                }
+
+                // Check #3 - Yellow - For each yellow letter, make sure the letter of the suspect word at that corresponding position DOES NOT match
+                for (Letter yellowLetter : filterForColor('Y', letterList)) {
+                    if (suspectWord.charAt(yellowLetter.position) == yellowLetter.letter) return false;
                 }
             }
         }
@@ -102,10 +107,11 @@ public class SolutionsList {
         // System.out.println(Arrays.toString(removeDuplicateLetters(myWord)));
 
         ArrayList<Letter[]> words = new ArrayList<>();
-        words.add(Letter.toLetterArray("ASPIC", "BGBBB"));
-        words.add(Letter.toLetterArray("STIFF", "GBBBB"));
+        // words.add(Letter.toLetterArray("ASPIC", "BGBBB"));
+        // words.add(Letter.toLetterArray("STIFF", "GBBBB"));
+        words.add(Letter.toLetterArray("XENON", "YBBBB"));
 
         SolutionsList sl = new SolutionsList(words, new WordDictionary("src/com/ninjaz/wordlesolver/CLI/all-5-letter-words.txt"));
-        System.out.println(sl.isSolution("XSXXX"));
+        System.out.println(sl.isSolution("XSSXX"));
     }
 }
