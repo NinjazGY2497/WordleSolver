@@ -69,15 +69,22 @@ public class SolutionsList {
             for (Letter uniqueLetter : uniqueLetters) {
                 Letter[] letterList = filterForLetter(uniqueLetter.letter, boardWord); // Gets all the letters matching the current unique letter in the word
 
-                // Check #1 - Determines required counts of the unique letter in the answer, indicated by the black unique letters
+                // Check #1 - Black - Determines required counts of the unique letter in the answer, indicated by the black unique letters
                 int totalCount = letterList.length;
                 int blackLetterCount = filterForColor('B', letterList).length;
 
                 int letterCountInSuspect = filterForLetter(uniqueLetter.letter, Letter.toColorlessLetterArray(suspectWord)).length; // Simply the count of the uniqueLetter in the suspect word
-                if (blackLetterCount == 0) { // No black letters present means suspect word must have a count of AT LEAST "totalCount - blackLetterCount"
+                if (blackLetterCount == 0) {
+                    // No black letters present means suspect word must have a count of AT LEAST "totalCount - blackLetterCount"
                     if (letterCountInSuspect < (totalCount - blackLetterCount)) return false;
-                } else { // 1+ black letters present means suspect word must have a count of EXACTLY "totalCount - blackLetterCount"
+                } else {
+                    // 1+ black letters present means suspect word must have a count of EXACTLY "totalCount - blackLetterCount"
                     if (letterCountInSuspect != (totalCount - blackLetterCount)) return false;
+                }
+
+                // Check #2 - Green - For each green unique letter, make sure the letter of the suspect word at that corresponding position matches
+                for (Letter greenLetter : filterForColor('G', letterList)) {
+                    if (suspectWord.charAt(greenLetter.position) != greenLetter.letter) return false; // greenLetter 'position' attribute holds which column it was originally in the boardWord, before it got thrown into a HashSet and unordered
                 }
             }
         }
@@ -95,9 +102,10 @@ public class SolutionsList {
         // System.out.println(Arrays.toString(removeDuplicateLetters(myWord)));
 
         ArrayList<Letter[]> words = new ArrayList<>();
-        words.add(Letter.toLetterArray("POPPY", "GBYBB"));
+        words.add(Letter.toLetterArray("ASPIC", "BGBBB"));
+        words.add(Letter.toLetterArray("STIFF", "GBBBB"));
 
         SolutionsList sl = new SolutionsList(words, new WordDictionary("src/com/ninjaz/wordlesolver/CLI/all-5-letter-words.txt"));
-        System.out.println(sl.isSolution("PSSPP"));
+        System.out.println(sl.isSolution("XSXXX"));
     }
 }
