@@ -30,7 +30,7 @@ public class Letter { // TODO: TO CONVERT TO A RECORD
 
     @Override
     public String toString() {
-        return "'%c' (color=%c) (pos=%d)".formatted(letter, color, position);
+        return "'%c'(color=%c)(pos=%d)".formatted(letter, color, position);
     }
 
     /** Basic equality checks PLUS extended functionality:

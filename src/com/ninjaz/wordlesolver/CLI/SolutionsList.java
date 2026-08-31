@@ -17,11 +17,25 @@ public class SolutionsList {
     // // ---- Algorithm ----
     /** Remove's any Letter objects that don't have the target 'letter' attribute value
      * Note: returns a copy */
-    private static Letter[] filterForLetter(char target, Letter[] letterArray) {
+    private static Letter[] filterForLetter(char targetLetter, Letter[] letterArray) {
         ArrayList<Letter> matchingLetters = new ArrayList<>();
 
         for (Letter letter: letterArray) {
-            if (Character.toUpperCase(letter.letter) == Character.toUpperCase(target)) {
+            if (Character.toUpperCase(letter.letter) == Character.toUpperCase(targetLetter)) {
+                matchingLetters.add(letter);
+            }
+        }
+
+        return matchingLetters.toArray(Letter[]::new);
+    }
+
+    /** Remove's any Letter objects that don't have the target 'color' attribute value
+     * Note: returns a copy */
+    private static Letter[] filterForColor(char targetColor, Letter[] letterArray) {
+        ArrayList<Letter> matchingLetters = new ArrayList<>();
+
+        for (Letter letter: letterArray) {
+            if (Character.toUpperCase(letter.color) == Character.toUpperCase(targetColor)) {
                 matchingLetters.add(letter);
             }
         }
@@ -45,7 +59,7 @@ public class SolutionsList {
     }
 
     public static void main(String[] args) {
-        Letter[] myWord = {new Letter('A', 'B', 2), new Letter('B', 'B', 4), new Letter('C', 'B', 1), new Letter('D', 'B', 3), new Letter('D', 'B', 2)};
-        System.out.println(Arrays.toString(filterForLetter('D', myWord)));
+        Letter[] myWord = {new Letter('A', 'B', 2), new Letter('B', 'G', 4), new Letter('C', 'B', 1), new Letter('D', 'G', 3), new Letter('D', 'Y', 2)};
+        System.out.println(Arrays.toString(filterForColor('B', myWord)));
     }
 }
