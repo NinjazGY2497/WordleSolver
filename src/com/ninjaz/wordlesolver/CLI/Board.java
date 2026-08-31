@@ -7,12 +7,7 @@ public class Board {
     private final int WORD_LENGTH = 5;
     private final int ROWS = 6;
 
-    private final WordDictionary wordDict;
     private final ArrayList<Letter[]> words = new ArrayList<>(); // An ArrayList of arrays of Letters
-
-    public Board(WordDictionary wordDict) {
-        this.wordDict = wordDict;
-    }
 
     public void addWord(String word, String colors) {
         word = word.strip();
@@ -29,9 +24,9 @@ public class Board {
         words.add(Letter.toLetterArray(word, colors));
     }
 
-    // public String[] getSolutions() {
-    //
-    // }
+    public ArrayList<Letter[]> getWords() {
+        return words;
+    }
 
     @Override
     public String toString() {

@@ -5,10 +5,11 @@ import java.util.HashSet;
 import java.util.List;
 
 public class SolutionsList {
-    private ArrayList<Letter[]> boardWords;
-    WordDictionary wordDict;
-    private ArrayList<String> solutions;
+    private final ArrayList<Letter[]> boardWords;
+    private final WordDictionary wordDict;
+    private final ArrayList<String> solutions = new ArrayList<>();
 
+    /** Note: if the Board is updated, a new SolutionsList must be instantiated to stay up-to-date */
     public SolutionsList(ArrayList<Letter[]> boardWords, WordDictionary wordDict) {
         this.boardWords = boardWords;
         this.wordDict = wordDict;
@@ -96,7 +97,7 @@ public class SolutionsList {
     }
 
     // ---- Other ----
-    public ArrayList<String> getSolutions() {
-        return solutions;
+    public String[] getSolutions() {
+        return solutions.toArray(String[]::new);
     }
 }
