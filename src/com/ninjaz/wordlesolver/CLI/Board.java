@@ -26,13 +26,7 @@ public class Board {
             throw new IllegalStateException("Board is full; no new words may be added");
         }
 
-        // Loop through each character of the word and its corresponding color, adding them both to the letterArray
-        Letter[] letterArray = new Letter[WORD_LENGTH];
-        for (int i = 0; i < word.length(); i++) {
-            letterArray[i] = new Letter(word.charAt(i), colors.charAt(i), i);
-        }
-
-        words.add(letterArray);
+        words.add(Letter.toLetterArray(word, colors));
     }
 
     // public String[] getSolutions() {
