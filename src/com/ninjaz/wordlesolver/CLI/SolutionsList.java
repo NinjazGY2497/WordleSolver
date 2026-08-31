@@ -56,13 +56,31 @@ public class SolutionsList {
     //     return colorSortedLetters.toArray(Letter[]::new);
     // }
 
+    /** Removes duplicates from a Letter array by converting the array to a HashSet and then back to an array
+     * - Note: returns a copy */
+    private static Letter[] removeDuplicateLetters(Letter[] letterArray) {
+        HashSet<Letter> set = new HashSet<>(List.of(letterArray)); // Convert to a HashSet to remove duplicates
+        return set.toArray(Letter[]::new); // Convert back to an array
+    }
+
     // public boolean isSolution(String suspectWord) {
-    //     for (Letter[] boardWord : boardWords) {
-    //         // Remove duplicates (convert array to a HashSet and then back to an array)
-    //         HashSet<Letter> letterSet = new HashSet<>(List.of(boardWord));
-    //         Letter[] uniqueLetters = letterSet.toArray(Letter[]::new);
+    //     for (Letter[] boardWord : boardWords) { // Loop through each row (word) in the Wordle grid
+    //         Letter[] uniqueLetters = removeDuplicatesFromArray(boardWord);
     //
+    //         for (Letter uniqueLetter : uniqueLetters) {
+    //             Letter[] letterList = filterForLetter(uniqueLetter.letter, boardWord); // Gets all the letters matching the current unique letter in the word
     //
+    //             // Check #1 - Determines required counts of the unique letter in the answer, indicated by the black unique letters
+    //             int totalCount = letterList.length;
+    //             int blackLetterCount = filterForColor('B', letterList).length;
+    //
+    //             int letterCountInSuspect = filterForLetter(uniqueLetter.letter, suspectWord);
+    //
+    //             if (blackLetterCount == 0) {
+    //                 int requiredCountInAnswer = totalCount - blackLetterCount;
+    //
+    //             }
+    //         }
     //     }
     // }
 
@@ -73,6 +91,6 @@ public class SolutionsList {
 
     public static void main(String[] args) {
         Letter[] myWord = {new Letter('A', 'B', 2), new Letter('B', 'G', 4), new Letter('C', 'B', 1), new Letter('D', 'G', 3), new Letter('D', 'Y', 2)};
-        System.out.println(Arrays.toString(sortGYB(myWord)));
+        System.out.println(Arrays.toString(removeDuplicateLetters(myWord)));
     }
 }
