@@ -1,7 +1,6 @@
 package com.ninjaz.wordlesolver.CLI;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
@@ -63,26 +62,28 @@ public class SolutionsList {
         return set.toArray(Letter[]::new); // Convert back to an array
     }
 
-    // public boolean isSolution(String suspectWord) {
-    //     for (Letter[] boardWord : boardWords) { // Loop through each row (word) in the Wordle grid
-    //         Letter[] uniqueLetters = removeDuplicatesFromArray(boardWord);
-    //
-    //         for (Letter uniqueLetter : uniqueLetters) {
-    //             Letter[] letterList = filterForLetter(uniqueLetter.letter, boardWord); // Gets all the letters matching the current unique letter in the word
-    //
-    //             // Check #1 - Determines required counts of the unique letter in the answer, indicated by the black unique letters
-    //             int totalCount = letterList.length;
-    //             int blackLetterCount = filterForColor('B', letterList).length;
-    //
-    //             int letterCountInSuspect = filterForLetter(uniqueLetter.letter, suspectWord);
-    //
-    //             if (blackLetterCount == 0) {
-    //                 int requiredCountInAnswer = totalCount - blackLetterCount;
-    //
-    //             }
-    //         }
-    //     }
-    // }
+    private boolean isSolution(String suspectWord) {
+        for (Letter[] boardWord : boardWords) { // Loop through each row (word) in the Wordle grid
+            Letter[] uniqueLetters = removeDuplicateLetters(boardWord);
+
+            for (Letter uniqueLetter : uniqueLetters) {
+                Letter[] letterList = filterForLetter(uniqueLetter.letter, boardWord); // Gets all the letters matching the current unique letter in the word
+
+                // Check #1 - Determines required counts of the unique letter in the answer, indicated by the black unique letters
+                int totalCount = letterList.length;
+                int blackLetterCount = filterForColor('B', letterList).length;
+
+                int letterCountInSuspect = filterForLetter(uniqueLetter.letter, Letter.toColorlessLetterArray(suspectWord)).length; // Simply the count of the uniqueLetter in the suspect word
+                if (blackLetterCount == 0) { // No black letters present means suspect word must have a count of AT LEAST "totalCount - blackLetterCount"
+                    if (letterCountInSuspect < (totalCount - blackLetterCount)) return false;
+                } else { // 1+ black letters present means suspect word must have a count of EXACTLY "totalCount - blackLetterCount"
+                    if (letterCountInSuspect != (totalCount - blackLetterCount)) return false;
+                }
+            }
+        }
+
+        return true;
+    }
 
     // ---- Other ----
     public ArrayList<String> getSolutions() {
@@ -90,7 +91,13 @@ public class SolutionsList {
     }
 
     public static void main(String[] args) {
-        Letter[] myWord = {new Letter('A', 'B', 2), new Letter('B', 'G', 4), new Letter('C', 'B', 1), new Letter('D', 'G', 3), new Letter('D', 'Y', 2)};
-        System.out.println(Arrays.toString(removeDuplicateLetters(myWord)));
+        // Letter[] myWord = {new Letter('A', 'B', 2), new Letter('B', 'G', 4), new Letter('C', 'B', 1), new Letter('D', 'G', 3), new Letter('D', 'Y', 2)};
+        // System.out.println(Arrays.toString(removeDuplicateLetters(myWord)));
+
+        ArrayList<Letter[]> words = new ArrayList<>();
+        words.add(Letter.toLetterArray("POPPY", "GBYBB"));
+
+        SolutionsList sl = new SolutionsList(words, new WordDictionary("src/com/ninjaz/wordlesolver/CLI/all-5-letter-words.txt"));
+        System.out.println(sl.isSolution("PSSPP"));
     }
 }
